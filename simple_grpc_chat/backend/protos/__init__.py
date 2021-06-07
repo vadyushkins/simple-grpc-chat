@@ -1,0 +1,2 @@
+import simple_grpc_chat.backend.protos.chat_pb2
+import simple_grpc_chat.backend.protos.chat_pb2_grpc
