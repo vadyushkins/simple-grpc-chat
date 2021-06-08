@@ -2,8 +2,8 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import QDialog
 
 from simple_grpc_chat.backend.src.client import ClientRunner
-from simple_grpc_chat.frontend.src.client import ClientDialog
 from simple_grpc_chat.frontend import FRONTEND_DIR
+from simple_grpc_chat.frontend.src.client import ClientDialog
 
 __all__ = ["LoginDialog"]
 
@@ -15,26 +15,29 @@ class LoginDialog(QDialog):
 
         self.setFixedSize(self.size())
 
-        self.CancelButton.clicked.connect(self.clear_form)
-        self.LoginButton.clicked.connect(self.login)
+        self.ClearButton.clicked.connect(self.clear_form)
+        self.LoginButton.clicked.connect(self.login_user)
+
+        self.client = None
 
     def clear_form(self):
         self.UsernameLineEdit.setText("")
         self.ServerIPLineEdit.setText("")
         self.ServerPORTLineEdit.setText("")
 
-    def login(self):
+    def login_user(self):
         name = self.UsernameLineEdit.text()
         ip = self.ServerIPLineEdit.text()
         port = self.ServerPORTLineEdit.text()
 
         if name != "" and ip != "" and port != "":
-            self.hide()
+            self.close()
 
-            self.client_runner = ClientRunner(
-                name=name,
-                ip=ip,
-                port=port,
+            self.client = ClientDialog(
+                ClientRunner(
+                    name=name,
+                    ip=ip,
+                    port=port,
+                )
             )
-            self.client_dialog = ClientDialog(self.client_runner)
-            self.client_dialog.show()
+            self.client.show()

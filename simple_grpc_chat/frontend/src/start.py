@@ -1,5 +1,3 @@
-import sys
-
 from PyQt5 import uic
 from PyQt5.QtWidgets import QDialog
 
@@ -21,18 +19,18 @@ class StartDialog(QDialog):
         self.ClientButton.clicked.connect(self.run_client)
         self.ServerButton.clicked.connect(self.run_server)
 
-    def close(self):
-        super(StartDialog, self).close()
-        sys.exit(0)
+        self.login_dialog = LoginDialog()
+        self.server_dialog = ServerDialog(ServerRunner())
 
     def run_client(self):
         self.hide()
-
-        self.login_dialog = LoginDialog()
         self.login_dialog.show()
 
     def run_server(self):
         self.hide()
-        self.server_runner = ServerRunner()
-        self.server_dialog = ServerDialog(self.server_runner)
         self.server_dialog.show()
+
+    def close(self):
+        super(StartDialog, self).close()
+        self.login_dialog.close()
+        self.server_dialog.close()

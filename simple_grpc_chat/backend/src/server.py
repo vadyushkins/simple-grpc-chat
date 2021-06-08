@@ -6,14 +6,14 @@ from grpc import server
 
 from simple_grpc_chat.backend.protos.chat_pb2 import Empty
 from simple_grpc_chat.backend.protos.chat_pb2_grpc import (
-    ChatServicer,
+    ChatServicer as gRPCChatServicer,
     add_ChatServicer_to_server,
 )
 
 __all__ = ["ServerRunner"]
 
 
-class ChatServicer(ChatServicer):
+class ChatServicer(gRPCChatServicer):
     def __init__(self):
         self.messages = []
 
@@ -32,22 +32,18 @@ class ChatServicer(ChatServicer):
 
 class ServerRunner:
     def __init__(self, ip=None, port=None):
-        if ip is None:
-            self.ip = socket.gethostbyname(socket.gethostname())
-        else:
-            self.ip = ip
+        self.ip = socket.gethostbyname(socket.gethostname()) if ip is None else ip
+        self.port = 50000 + randint(1, 1000) if port is None else port
 
-        if port is None:
-            self.port = 50000 + randint(1, 1000)
-        else:
-            self.port = port
+        self.thread_pool = futures.ThreadPoolExecutor(max_workers=3)
+        self.server = server(self.thread_pool)
+        self.chat_servicer = ChatServicer()
 
     def start(self):
-        self.server = server(futures.ThreadPoolExecutor(max_workers=3))
-        self.chat_servicer = ChatServicer()
         add_ChatServicer_to_server(self.chat_servicer, self.server)
         self.server.add_insecure_port(f"{self.ip}:{self.port}")
         self.server.start()
 
     def stop(self):
-        self.server.stop()
+        self.server.stop(grace=None)
+        self.thread_pool.shutdown(wait=False)

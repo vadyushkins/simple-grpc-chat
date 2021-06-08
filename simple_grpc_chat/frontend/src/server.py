@@ -1,5 +1,3 @@
-import sys
-
 from PyQt5 import uic
 from PyQt5.QtWidgets import QDialog
 
@@ -10,13 +8,13 @@ __all__ = ["ServerDialog"]
 
 
 class ServerDialog(QDialog):
-    def __init__(self, server: ServerRunner):
+    def __init__(self, server_runner: ServerRunner):
         super().__init__()
         uic.loadUi(str(FRONTEND_DIR / "ui" / "server.ui"), self)
 
         self.setFixedSize(self.size())
 
-        self.server = server
+        self.server = server_runner
 
         self.IPLabel.setText(f"IP = {self.server.ip}")
         self.PORTLabel.setText(f"PORT = {self.server.port}")
@@ -28,4 +26,3 @@ class ServerDialog(QDialog):
     def close(self):
         self.server.stop()
         super(ServerDialog, self).close()
-        sys.exit(0)

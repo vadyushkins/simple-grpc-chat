@@ -13,12 +13,10 @@ class ClientRunner:
         self.name = name
         self.ip = ip
         self.port = port
-
-    def start(self):
-        self.conn = rpc.ChatStub(grpc.insecure_channel(f"{self.ip}:{self.port}"))
+        self.connection = rpc.ChatStub(grpc.insecure_channel(f"{self.ip}:{self.port}"))
 
     def receive_messages(self):
-        for message in self.conn.receive_messages(chat.Empty()):
+        for message in self.connection.receive_messages(chat.Empty()):
             yield f"[{message.time}, {message.name}] {message.message}"
 
     def send_message(self, message):
@@ -27,4 +25,4 @@ class ClientRunner:
         new_message.message = message
         new_message.time = strftime("%H:%M")
 
-        self.conn.send_message(new_message)
+        self.connection.send_message(new_message)

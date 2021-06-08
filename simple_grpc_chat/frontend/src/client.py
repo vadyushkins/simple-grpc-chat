@@ -1,4 +1,3 @@
-import sys
 import threading
 
 from PyQt5 import uic
@@ -12,13 +11,13 @@ __all__ = ["ClientDialog"]
 
 
 class ClientDialog(QDialog):
-    def __init__(self, client: ClientRunner):
+    def __init__(self, client_runner: ClientRunner):
         super().__init__()
         uic.loadUi(str(FRONTEND_DIR / "ui" / "chat.ui"), self)
 
         self.setFixedSize(self.size())
 
-        self.client = client
+        self.client = client_runner
 
         self.cursor = QTextCursor(self.ChatTextEdit.document())
         self.cursor.setPosition(0)
@@ -26,18 +25,17 @@ class ClientDialog(QDialog):
 
         self.MessageLineEdit.returnPressed.connect(self.send_message)
 
-    def show(self):
-        self.client.start()
         self.client_chat_thread = threading.Thread(
             target=self.refresh_chat, daemon=True
         )
+
+    def show(self):
         self.client_chat_thread.start()
         super(ClientDialog, self).show()
 
     def close(self):
         self.client_chat_thread.join()
         super(ClientDialog, self).close()
-        sys.exit(0)
 
     def refresh_chat(self):
         for message in self.client.receive_messages():

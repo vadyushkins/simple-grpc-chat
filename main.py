@@ -11,7 +11,11 @@ def main():
     start = StartDialog()
     start.show()
 
-    sys.exit(app.exec_())
+    app.exec_()
+
+    start.close()
+
+    sys.exit(0)
 
 
 if __name__ == "__main__":
