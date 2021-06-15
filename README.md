@@ -1,5 +1,7 @@
 # simple-grpc-chat
 
+[![Code style check](https://github.com/vdshk/simple-grpc-chat/actions/workflows/lint.yml/badge.svg)](https://github.com/vdshk/simple-grpc-chat/actions/workflows/lint.yml)
+
 ### Description
 
 Implementation of a chat with gRPC in Python.
