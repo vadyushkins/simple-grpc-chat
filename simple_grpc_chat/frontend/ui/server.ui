@@ -38,28 +38,6 @@
     <set>Qt::AlignBottom|Qt::AlignHCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="PORTLabel">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>320</y>
-     <width>480</width>
-     <height>320</height>
-    </rect>
-   </property>
-   <property name="autoFillBackground">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>PORT =</string>
-   </property>
-   <property name="scaledContents">
-    <bool>true</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignHCenter|Qt::AlignTop</set>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>

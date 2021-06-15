@@ -23,21 +23,18 @@ class LoginDialog(QDialog):
     def clear_form(self):
         self.UsernameLineEdit.setText("")
         self.ServerIPLineEdit.setText("")
-        self.ServerPORTLineEdit.setText("")
 
     def login_user(self):
         name = self.UsernameLineEdit.text()
         ip = self.ServerIPLineEdit.text()
-        port = self.ServerPORTLineEdit.text()
 
-        if name != "" and ip != "" and port != "":
+        if name != "" and ip != "":
             self.close()
 
             self.client = ClientDialog(
                 ClientRunner(
                     name=name,
                     ip=ip,
-                    port=port,
                 )
             )
             self.client.show()

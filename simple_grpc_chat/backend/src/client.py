@@ -9,10 +9,10 @@ __all__ = ["ClientRunner"]
 
 
 class ClientRunner:
-    def __init__(self, name="User", ip="localhost", port=50051):
+    def __init__(self, name="User", ip="localhost"):
         self.name = name
         self.ip = ip
-        self.port = port
+        self.port = 50051
         self.connection = rpc.ChatStub(grpc.insecure_channel(f"{self.ip}:{self.port}"))
 
     def receive_messages(self):

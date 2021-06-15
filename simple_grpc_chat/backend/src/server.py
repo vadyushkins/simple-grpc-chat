@@ -1,6 +1,5 @@
 import socket
 from concurrent import futures
-from random import randint
 
 from grpc import server
 
@@ -31,9 +30,9 @@ class ChatServicer(gRPCChatServicer):
 
 
 class ServerRunner:
-    def __init__(self, ip=None, port=None):
+    def __init__(self, ip=None):
         self.ip = socket.gethostbyname(socket.gethostname()) if ip is None else ip
-        self.port = 50000 + randint(1, 1000) if port is None else port
+        self.port = 50051
 
         self.thread_pool = futures.ThreadPoolExecutor(max_workers=3)
         self.server = server(self.thread_pool)

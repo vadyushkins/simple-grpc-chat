@@ -17,7 +17,6 @@ class ServerDialog(QDialog):
         self.server = server_runner
 
         self.IPLabel.setText(f"IP = {self.server.ip}")
-        self.PORTLabel.setText(f"PORT = {self.server.port}")
 
     def show(self):
         self.server.start()
